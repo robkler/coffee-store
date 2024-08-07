@@ -3,7 +3,6 @@ package com.coffee.coffee_store.controller;
 
 import com.coffee.coffee_store.model.Coffee;
 import com.coffee.coffee_store.repository.CoffeeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +16,11 @@ import java.util.Optional;
 @RequestMapping("/coffee")
 public class CoffeeController {
 
-    @Autowired
-    private CoffeeRepository coffeeRepository;
+    private final CoffeeRepository coffeeRepository;
+
+    public CoffeeController(CoffeeRepository coffeeRepository) {
+        this.coffeeRepository = coffeeRepository;
+    }
 
     @GetMapping
     public List<Coffee> getAllCoffees() {

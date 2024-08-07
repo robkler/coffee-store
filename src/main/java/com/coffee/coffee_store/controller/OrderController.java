@@ -6,7 +6,6 @@ import com.coffee.coffee_store.model.Order;
 import com.coffee.coffee_store.model.OrderStatus;
 import com.coffee.coffee_store.repository.CoffeeRepository;
 import com.coffee.coffee_store.repository.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +19,17 @@ import java.util.Optional;
 @RequestMapping("/orders")
 public class OrderController {
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
-    @Autowired
-    private CoffeeRepository coffeeRepository;
+    private final CoffeeRepository coffeeRepository;
 
-    @Autowired
-    private KafkaProducer kafkaProducer;
+    private final KafkaProducer kafkaProducer;
+
+    public OrderController(OrderRepository orderRepository, CoffeeRepository coffeeRepository, KafkaProducer kafkaProducer) {
+        this.orderRepository = orderRepository;
+        this.coffeeRepository = coffeeRepository;
+        this.kafkaProducer = kafkaProducer;
+    }
 
     @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody Order order) {
