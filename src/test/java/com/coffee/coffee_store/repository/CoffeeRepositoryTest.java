@@ -36,7 +36,7 @@ public class CoffeeRepositoryTest {
     @Test
     public void testFindCoffeeById() {
         Coffee coffee = new Coffee();
-        coffee.setName("Espresso");
+        coffee.setName("Espresso2");
         coffee.setPrice(2.50);
 
         Coffee savedCoffee = coffeeRepository.save(coffee);
@@ -54,7 +54,7 @@ public class CoffeeRepositoryTest {
     @Test
     public void testFindAllCoffees() {
         Coffee coffee = new Coffee();
-        coffee.setName("Espresso");
+        coffee.setName("Espresso3");
         coffee.setPrice(2.50);
 
         coffeeRepository.save(coffee);
@@ -67,7 +67,7 @@ public class CoffeeRepositoryTest {
     @Test
     public void testUpdateCoffee() {
         Coffee coffee = new Coffee();
-        coffee.setName("Espresso");
+        coffee.setName("Espresso4");
         coffee.setPrice(2.50);
 
         Coffee savedCoffee = coffeeRepository.save(coffee);
@@ -81,5 +81,18 @@ public class CoffeeRepositoryTest {
 
         assertThat(updatedCoffee.getPrice()).isEqualTo(3.00);
         assertThat(updatedCoffee.getId()).isEqualTo(savedCoffee.getId());
+    }
+
+    @Test
+    public void testFindByName() {
+        Coffee coffee = new Coffee();
+        coffee.setName("Espresso5");
+        coffee.setPrice(2.50);
+
+        coffeeRepository.save(coffee);
+
+        Optional<Coffee> coffeeOptional = coffeeRepository.findByName("Espresso5");
+        Coffee getCoffee = coffeeOptional.get();
+        assertThat(getCoffee.getPrice()).isEqualTo(2.5);
     }
 }
