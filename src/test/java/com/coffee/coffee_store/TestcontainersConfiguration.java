@@ -1,4 +1,4 @@
-package com.coffe.coffe_store;
+package com.coffee.coffee_store;
 
 import org.springframework.boot.test.context.TestConfiguration;
 
