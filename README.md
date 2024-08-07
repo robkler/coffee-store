@@ -10,7 +10,7 @@ The Coffee Store Application is a Spring Boot application that manages coffee or
 ## Deployment using Docker Compose
 1. Clone the repository:
     ```sh
-    git clone <REPOSITORY_URL>
+    git clone git@github.com:robkler/coffee-store.git
     cd coffee-store
     ```
 
