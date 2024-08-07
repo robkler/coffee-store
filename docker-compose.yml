@@ -37,3 +37,18 @@ services:
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
     depends_on:
       - zookeeper
+
+  app:
+    build: .
+    restart: always
+    container_name: coffee-store-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/coffee-store
+      SPRING_DATASOURCE_USERNAME: user-coffee-store
+      SPRING_DATASOURCE_PASSWORD: password-coffee-store
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
