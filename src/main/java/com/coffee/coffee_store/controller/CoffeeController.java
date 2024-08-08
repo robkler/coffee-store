@@ -1,9 +1,13 @@
 package com.coffee.coffee_store.controller;
 
 
+import com.coffee.coffee_store.execption.CoffeeAlreadyExist;
+import com.coffee.coffee_store.execption.CoffeeNotFoundException;
 import com.coffee.coffee_store.model.CoffeeDTO;
 import com.coffee.coffee_store.service.CoffeeService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,10 +32,18 @@ public class CoffeeController {
     }
 
     @PostMapping
-    public CoffeeDTO createCoffee(@RequestBody CoffeeDTO coffeeDTO) {
-        return coffeeService.createCoffee(coffeeDTO);
+    public ResponseEntity<CoffeeDTO> createCoffee(@RequestBody CoffeeDTO coffeeDTO) {
+        try {
+            CoffeeDTO createdCoffee = coffeeService.createCoffee(coffeeDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdCoffee);
+        } catch (CoffeeAlreadyExist e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (CoffeeNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
-
     @PutMapping("/{id}")
     public CoffeeDTO updateCoffee(@PathVariable Long id, @RequestBody CoffeeDTO coffeeDTODetails) {
         coffeeDTODetails.setId(id);

@@ -1,6 +1,6 @@
 package com.coffee.coffee_store.controllerAdvice;
 
-import com.coffee.coffee_store.execption.AddCoffeeFoundException;
+import com.coffee.coffee_store.execption.AddCoffeeException;
 import com.coffee.coffee_store.execption.CoffeeNotFoundException;
 import com.coffee.coffee_store.execption.OrderNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -24,8 +24,8 @@ public class OrderControllerAdvice {
         return handleNotFoundException(ex,HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(AddCoffeeFoundException.class)
-    public ResponseEntity<Map<String, String>> handleAddCoffeeFoundException(AddCoffeeFoundException ex) {
+    @ExceptionHandler(AddCoffeeException.class)
+    public ResponseEntity<Map<String, String>> handleAddCoffeeFoundException(AddCoffeeException ex) {
         return handleNotFoundException(ex,HttpStatus.BAD_REQUEST);
     }
 

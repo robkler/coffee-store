@@ -63,7 +63,7 @@ public class OrderEntity {
     public OrderDTO toDTO() {
         return OrderDTO.builder()
                 .id(this.id)
-                .coffees(this.coffeeEntities.stream().map(CoffeeEntity::toDTO).collect(Collectors.toList()))
+                .coffees(this.coffeeEntities != null ? this.coffeeEntities.stream().map(CoffeeEntity::toDTO).collect(Collectors.toList()) : List.of())
                 .customerName(this.customerName)
                 .totalItems(this.totalItems)
                 .totalPrice(this.totalPrice)

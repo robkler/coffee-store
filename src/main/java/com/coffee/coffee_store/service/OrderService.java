@@ -1,6 +1,6 @@
 package com.coffee.coffee_store.service;
 
-import com.coffee.coffee_store.execption.AddCoffeeFoundException;
+import com.coffee.coffee_store.execption.AddCoffeeException;
 import com.coffee.coffee_store.execption.CoffeeNotFoundException;
 import com.coffee.coffee_store.domain.OrderEntity;
 import com.coffee.coffee_store.execption.OrderNotFoundException;
@@ -59,12 +59,12 @@ public class OrderService {
 
     public OrderDTO createOrder(OrderDTO orderDTO) {
         if (orderDTO.getCoffees().isEmpty()) {
-            throw new AddCoffeeFoundException();
+            throw new AddCoffeeException();
         }
         try {
             OrderEntity orderEntity = OrderEntity.builder()
                     .customerName(orderDTO.getCustomerName())
-                    .coffeeEntities(orderDTO.getCoffees().stream().map(coffeeDTO -> coffeeRepository.findByName(coffeeDTO.getName()).get()).toList())
+                    .coffeeEntities(orderDTO.getCoffees() != null ? orderDTO.getCoffees().stream().map(coffeeDTO -> coffeeRepository.findByName(coffeeDTO.getName()).get()).toList() : List.of())
                     .build();
 
             orderEntity.populateCoffeeDetails(coffeeRepository);
