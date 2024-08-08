@@ -1,71 +1,45 @@
 package com.coffee.coffee_store.controller;
 
 
-import com.coffee.coffee_store.model.Coffee;
-import com.coffee.coffee_store.repository.CoffeeRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.coffee.coffee_store.model.CoffeeDTO;
+import com.coffee.coffee_store.service.CoffeeService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/coffee")
 public class CoffeeController {
 
-    private final CoffeeRepository coffeeRepository;
-
-    public CoffeeController(CoffeeRepository coffeeRepository) {
-        this.coffeeRepository = coffeeRepository;
-    }
+    private final CoffeeService coffeeService;
 
     @GetMapping
-    public List<Coffee> getAllCoffees() {
-        return coffeeRepository.findAll();
+    public List<CoffeeDTO> getAllCoffees(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size) {
+        return coffeeService.getAllCoffees(page, size);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Coffee> getCoffeeById(@PathVariable Long id) {
-        Optional<Coffee> coffee = coffeeRepository.findById(id);
-        return coffee.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public CoffeeDTO getCoffeeById(@PathVariable Long id) {
+        return coffeeService.getCoffeeById(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> createCoffee(@RequestBody Coffee coffee) {
-        if (coffeeRepository.findByName(coffee.getName()).isPresent()) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Coffee with name " + coffee.getName() + " already exists");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
-        }
-        Coffee savedCoffee = coffeeRepository.save(coffee);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedCoffee);
+    public CoffeeDTO createCoffee(@RequestBody CoffeeDTO coffeeDTO) {
+        return coffeeService.createCoffee(coffeeDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Coffee> updateCoffee(@PathVariable Long id, @RequestBody Coffee coffeeDetails) {
-        Optional<Coffee> coffeeOptional = coffeeRepository.findById(id);
-        if (coffeeOptional.isPresent()) {
-            Coffee coffee = coffeeOptional.get();
-            coffee.setName(coffeeDetails.getName());
-            coffee.setPrice(coffeeDetails.getPrice());
-            Coffee updatedCoffee = coffeeRepository.save(coffee);
-            return ResponseEntity.ok(updatedCoffee);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public CoffeeDTO updateCoffee(@PathVariable Long id, @RequestBody CoffeeDTO coffeeDTODetails) {
+        coffeeDTODetails.setId(id);
+        return coffeeService.updateCoffee(coffeeDTODetails);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCoffee(@PathVariable Long id) {
-        Optional<Coffee> coffee = coffeeRepository.findById(id);
-        if (coffee.isPresent()) {
-            coffeeRepository.delete(coffee.get());
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public void deleteCoffee(@PathVariable Long id) {
+        coffeeService.deleteCoffee(id);
     }
 }

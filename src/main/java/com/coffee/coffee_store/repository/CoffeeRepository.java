@@ -1,13 +1,13 @@
 package com.coffee.coffee_store.repository;
 
 
-import com.coffee.coffee_store.model.Coffee;
+import com.coffee.coffee_store.domain.CoffeeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
-    Optional<Coffee> findByName(String name);
+public interface CoffeeRepository extends JpaRepository<CoffeeEntity, Long> {
+    Optional<CoffeeEntity> findByName(String name);
 }

@@ -1,7 +1,7 @@
 # Coffee Store Application
 
 ## Project Description
-The Coffee Store Application is a Spring Boot application that manages coffee orders. The application uses PostgreSQL as the database, Kafka for messaging, and Swagger for API documentation.
+The Coffee Store Application is a Spring Boot application that manages coffeeEntity orderEntities. The application uses PostgreSQL as the database, Kafka for messaging, and Swagger for API documentation.
 
 ## Prerequisites
 - Docker
@@ -10,8 +10,8 @@ The Coffee Store Application is a Spring Boot application that manages coffee or
 ## Deployment using Docker Compose
 1. Clone the repository:
     ```sh
-    git clone git@github.com:robkler/coffee-store.git
-    cd coffee-store
+    git clone git@github.com:robkler/coffeeEntity-store.git
+    cd coffeeEntity-store
     ```
 
 2. Build and start the containers:

@@ -1,6 +1,6 @@
 package com.coffee.coffee_store.kafka;
 
-import com.coffee.coffee_store.model.Order;
+import com.coffee.coffee_store.domain.OrderEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -20,9 +20,9 @@ public class KafkaProducer {
         this.objectMapper = objectMapper;
     }
 
-    public void sendMessage(Order order) {
+    public void sendMessage(OrderEntity orderEntity) {
         try {
-            String message = objectMapper.writeValueAsString(order);
+            String message = objectMapper.writeValueAsString(orderEntity);
             kafkaTemplate.send(TOPIC, message);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

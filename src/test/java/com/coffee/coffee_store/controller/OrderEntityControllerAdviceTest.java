@@ -1,5 +1,6 @@
 package com.coffee.coffee_store.controller;
 
+import com.coffee.coffee_store.controllerAdvice.OrderControllerAdvice;
 import com.coffee.coffee_store.execption.CoffeeNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class OrderControllerAdviceTest {
+class OrderEntityControllerAdviceTest {
 
     @InjectMocks
     private OrderControllerAdvice orderControllerAdvice;
