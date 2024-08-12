@@ -4,6 +4,7 @@ import com.coffee.store.model.execption.AddCoffeeException;
 import com.coffee.store.model.execption.CoffeeAlreadyExist;
 import com.coffee.store.model.execption.CoffeeNotFoundException;
 import com.coffee.store.model.execption.OrderNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,6 +15,11 @@ import java.util.Map;
 
 @ControllerAdvice
 public class OrderControllerAdvice {
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException e) {
+        return handleException(e ,HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(CoffeeAlreadyExist.class)
     public ResponseEntity<Map<String, String>> handleCoffeeNotFoundException(CoffeeAlreadyExist ex) {

@@ -1,7 +1,6 @@
 package com.coffee.store.model.request;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.List;
@@ -13,14 +12,14 @@ import java.util.List;
 @Setter
 public class OrderUpdate {
 
-    @NotEmpty
-    @Size(max = 255)
+    @NotNull
+    @Positive
     private Long id;
 
     @NotEmpty
     private List<CoffeeOrder> coffees = List.of();
 
-    @NotEmpty
+    @NotBlank
     @Size(max = 255)
     private String customerName;
 }

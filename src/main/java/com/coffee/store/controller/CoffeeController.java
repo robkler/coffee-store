@@ -6,6 +6,7 @@ import com.coffee.store.model.request.CoffeeCreate;
 import com.coffee.store.model.request.CoffeeUpdate;
 import com.coffee.store.service.CoffeeService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +25,13 @@ public class CoffeeController {
 
     @GetMapping
     public List<CoffeeDTO> getAllCoffees(
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "3") int size) {
+            @RequestParam(name = "page", defaultValue = "0") @Min(0) int page,
+            @RequestParam(name = "size", defaultValue = "3") @Min(1) int size) {
         return coffeeService.getAllCoffees(page, size);
     }
 
     @GetMapping("/{id}")
-    public CoffeeDTO getCoffeeById(@PathVariable Long id) {
+    public CoffeeDTO getCoffeeById(@PathVariable @Min(1) Long id) {
         return coffeeService.getCoffeeById(id);
     }
 
@@ -46,7 +47,7 @@ public class CoffeeController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCoffee(@PathVariable Long id) {
+    public void deleteCoffee(@PathVariable @Min(1) Long id) {
         coffeeService.deleteCoffee(id);
     }
 }

@@ -30,6 +30,11 @@ class OrderControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    void getAllOrders_Returns_BadRequest() throws Exception{
+        mockMvc.perform(get("/orders?page=-1&size=3"))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
     void getAllOrders_ReturnsOrderList() throws Exception {
         List<OrderDTO> orderDTOs = Arrays.asList(new OrderDTO(), new OrderDTO());
         when(orderService.getAllOrders(0, 3)).thenReturn(orderDTOs);
@@ -37,6 +42,12 @@ class OrderControllerTest {
         mockMvc.perform(get("/orders"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
+    }
+
+    @Test
+    void getOrderById_Returns_BadRequest() throws Exception{
+        mockMvc.perform(get("/orders/-1"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -58,15 +69,31 @@ class OrderControllerTest {
     }
 
     @Test
+    void createOrder_InvalidOrder_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(post("/orders")
+                        .contentType("application/json")
+                        .content("{\"customerName\": \"Rob\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void createOrder_ValidOrder_ReturnsCreatedOrder() throws Exception {
         OrderDTO orderDTO = new OrderDTO();
         when(orderService.createOrder(any(OrderCreate.class))).thenReturn(orderDTO);
 
         mockMvc.perform(post("/orders")
                         .contentType("application/json")
-                        .content("{\"name\": \"New Order\"}"))
+                        .content("{\"customerName\": \"Rob\", \"coffees\": [{\"name\": \"Latte\"}]}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(orderDTO.getId()));
+    }
+
+    @Test
+    void updateOrder_InvalidOrder_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(put("/orders")
+                        .contentType("application/json")
+                        .content("{\"customerName\": \"Rob\"}"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -77,9 +104,15 @@ class OrderControllerTest {
 
         mockMvc.perform(put("/orders")
                         .contentType("application/json")
-                        .content("{\"id\": 1, \"name\": \"Updated Order\"}"))
+                        .content("{\"id\": 1,\"customerName\": \"Rob\", \"coffees\": [{\"name\": \"Latte\"}]}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(orderDTO.getId()));
+    }
+
+    @Test
+    void deleteOrder_InvalidId_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(delete("/orders/-1"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

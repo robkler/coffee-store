@@ -13,12 +13,11 @@ public class CoffeeUpdate {
     @Positive
     private Long id;
 
-    @NotEmpty
+    @NotBlank
     @Size(max = 255)
     private String name;
 
-    @NotEmpty
     @PositiveOrZero
-    private double price;
+    private Double price;
 
 }

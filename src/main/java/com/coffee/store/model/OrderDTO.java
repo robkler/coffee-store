@@ -15,6 +15,6 @@ public class OrderDTO {
     private List<CoffeeDTO> coffees = List.of();
     private String customerName;
     private int totalItems;
-    private double totalPrice;
+    private Double totalPrice;
     private OrderStatus status;
 }

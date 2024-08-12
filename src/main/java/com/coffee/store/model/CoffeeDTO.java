@@ -10,5 +10,5 @@ import lombok.*;
 public class CoffeeDTO {
     private Long id;
     private String name;
-    private double price;
+    private Double price;
 }

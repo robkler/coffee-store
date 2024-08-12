@@ -1,6 +1,6 @@
 package com.coffee.store.model.request;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -10,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 public class CoffeeOrder {
-    @NotEmpty
+    @NotBlank
     @Size(max = 255)
     private String name;
 }

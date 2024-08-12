@@ -7,6 +7,7 @@ import com.coffee.store.model.CoffeeDTO;
 import com.coffee.store.model.request.CoffeeCreate;
 import com.coffee.store.model.request.CoffeeUpdate;
 import com.coffee.store.repository.CoffeeRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,7 +48,7 @@ public class CoffeeService {
         return savedCoffeeEntity.toDTO();
     }
 
-    public CoffeeDTO updateCoffee(CoffeeUpdate coffeeUpdate) {
+    public CoffeeDTO updateCoffee(@Valid CoffeeUpdate coffeeUpdate) {
         CoffeeEntity coffeeEntity = coffeeRepository.findById(coffeeUpdate.getId()).orElseThrow(
                 () -> new CoffeeNotFoundException(coffeeUpdate.getId()));
 

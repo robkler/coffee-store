@@ -35,6 +35,14 @@ class CoffeeControllerTest {
     }
 
     @Test
+    void createCoffee_InvalidCoffee_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(post("/coffee")
+                        .contentType("application/json")
+                        .content("{\"name\": \"Latte\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void createCoffee_ValidCoffee_ReturnsCreated() throws Exception {
         CoffeeDTO coffeeDTO = new CoffeeDTO();
         coffeeDTO.setName("Latte");
@@ -43,9 +51,16 @@ class CoffeeControllerTest {
 
         mockMvc.perform(post("/coffee")
                         .contentType("application/json")
-                        .content("{\"name\": \"Latte\"}"))
+                        .content("{\"name\": \"Latte\",\"price\": 5.0}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Latte"));
+    }
+
+    @Test
+
+    void getAllCoffees_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(get("/coffee?page=-1&size=3"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -64,6 +79,12 @@ class CoffeeControllerTest {
                 .andExpect(jsonPath("$[0].name").value("Espresso"))
                 .andExpect(jsonPath("$[1].name").value("Latte"))
                 .andExpect(jsonPath("$[2].name").value("Cappuccino"));
+    }
+
+    @Test
+    void getCoffeeById_InvalidId_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(get("/coffee/-1"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -86,6 +107,14 @@ class CoffeeControllerTest {
     }
 
     @Test
+    void updateCoffee_InvalidCoffee_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(put("/coffee")
+                        .contentType("application/json")
+                        .content("{\"name\": \"Latte\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void updateCoffee_ValidCoffee_ReturnsUpdatedCoffee() throws Exception {
         CoffeeDTO coffeeDTO = new CoffeeDTO(1L, "Latte Updated",5.0);
 
@@ -96,6 +125,12 @@ class CoffeeControllerTest {
                         .content("{\"id\":1,\"name\": \"Latte Updated\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Latte Updated"));
+    }
+
+    @Test
+    void deleteCoffee_InvalidId_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(delete("/coffee/-1"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

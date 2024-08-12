@@ -10,11 +10,11 @@ import lombok.*;
 @Setter
 public class CoffeeCreate {
 
-    @NotEmpty
+    @NotBlank
     @Size(max = 255)
     private String name;
 
-    @NotEmpty
+    @NotNull
     @PositiveOrZero
-    private double price;
+    private Double price;
 }
